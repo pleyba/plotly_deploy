@@ -41,7 +41,7 @@ init();
       var PANEL = d3.select("#sample-metadata");
   
       // Use `.html("") to clear any existing metadata
-      PANEL.html("");
+      index.html("");
   
       // Use `Object.entries` to add each key and value pair to the panel
       // Hint: Inside the loop, you will need to use d3 to append new
@@ -80,13 +80,15 @@ init();
       var yticks = top_val.sort((a,b) => a-b);
 
       // 8. Create the trace for the bar chart. 
-      var barData = {
+      var barData = [
+        {
           x: top_val,
           y: topOTU,
           text: top_otu,
           type: 'bar',
           orientation: 'h'
-      };
+        }
+        ];
       // 9. Create the layout for the bar chart. 
       var barLayout = {
           title: 'Top 10 Bacteria Cultures Found',
@@ -94,6 +96,58 @@ init();
       };
       // 10. Use Plotly to plot the data with the layout. 
       Plotly.newPlot("bar", [barData], barLayout)
+
+      // 1. Create the trace for the bubble chart.
+      var bubbleData = [
+        {
+        x: otu_ids,
+        y: sample_values,
+        text: otu_labels,
+        mode: 'markers',
+        color: otu_ids,
+        colorscale: 'Electric'
+        }
+        ];
+
+      // 2. Create the layout for the bubble chart.
+      var bubbleLayout = {
+        title: 'Bacteria Cultures per Sample',
+        showlegend: false,
+        hovermode: 'closest',
+        xaxis: (titile:'OTU (Operational Tanxonomic Unit) ID ') +sample),
+        margin: (t:30)
+      };
+
+      // 3. Use Plotly to plot the data with the layout.
+      Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+
+      // 4. Create the trace for the gauge chart.
+      var gaugeData = [
+        {
+          domain: { x: [0, 1], y: [0, 1] },
+          marker: {size: 28, color:'850000'},
+          value: result.wfreq,
+          title: 'Belly Button Washing Frequency<br> Scrubs per Week',
+          titlefont: {family: '"Palatino Linotype", "Book Antiqua", Palatino, serif'},
+          type: "indicator",
+          mode: "gauge+number"
+        }
+      
+      ];
+      
+      // 5. Create the layout for the gauge chart.
+      var gaugeLayout = {
+        width: 450,
+         height: 400,
+         margin: { t: 25, r: 25, l: 25, b: 25 },
+         line: {
+         color: '600000'
+         },
+         paper_bgcolor: "#a5bdc6",
+         font: { color: "#85541d", family: "Serif" }
+       };
+
+      // 6. Use Plotly to plot the gauge data and layout.
+      Plotly.newPlot("gauge", gaugeData, gaugeLayout);
     });
-  }
-  
+}
